@@ -327,19 +327,19 @@ class DOMHTMLMovieParser(DOMParserBase):
         Rule(
             key='cast',
             extractor=Rules(
-                foreach='//table[@class="cast_list"]//tr',
+                foreach='//div[@data-testid="sub-section-cast"]//li',
                 rules=[
                     Rule(
                         key='person',
-                        extractor=Path('.//text()')
+                        extractor=Path('.//a[contains(@class, "name-credits--title-text-small")]/text()')
                     ),
                     Rule(
                         key='link',
-                        extractor=Path('./td[2]/a/@href')
+                        extractor=Path('.//a[contains(@class, "name-credits--title-text-small")]/@href')
                     ),
                     Rule(
                         key='roleID',
-                        extractor=Path('./td[4]//div[@class="_imdbpyrole"]/@roleid')
+                        extractor=Path('.//a[contains(@href, "/characters/")]/text()')
                     )
                 ],
                 transform=lambda x: build_person(
@@ -384,7 +384,7 @@ class DOMHTMLMovieParser(DOMParserBase):
         Rule(
             key='genres',
             extractor=Path(
-                foreach='//td[starts-with(text(), "Genre")]/..//li/a',
+                foreach='//li[@data-testid="storyline-genres"]//a',
                 path='./text()'
             )
         ),
@@ -399,7 +399,7 @@ class DOMHTMLMovieParser(DOMParserBase):
         Rule(
             key='countries',
             extractor=Path(
-                foreach='//td[starts-with(text(), "Countr")]/..//li/a',
+                foreach='//li[@data-testid="title-details-origin"]//a',
                 path='./text()'
             )
         ),
@@ -507,7 +507,7 @@ class DOMHTMLMovieParser(DOMParserBase):
         Rule(
             key='thin writer',
             extractor=Rules(
-                foreach='//div[starts-with(normalize-space(text()), "Writer")]/ul/li[1]/a',
+                foreach='//div[@data-testid="sub-section-writer"]//a[contains(@class, "name-credits--title-text-small")]',
                 rules=[
                     Rule(
                         key='name',
@@ -527,7 +527,7 @@ class DOMHTMLMovieParser(DOMParserBase):
         Rule(
             key='thin director',
             extractor=Rules(
-                foreach='//div[starts-with(normalize-space(text()), "Director")]/ul/li[1]/a',
+                foreach='//div[@data-testid="sub-section-director"]//a[contains(@class, "name-credits--title-text-small")]',
                 rules=[
                     Rule(
                         key='name',

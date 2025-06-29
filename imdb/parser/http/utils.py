@@ -90,7 +90,7 @@ def build_person(txt, personID=None, billingPos=None,
     # if personID is None
     #     _b_p_logger.debug('empty name or personID for "%s"', txt)
     notes = ''
-    role = ''
+    role = roleID[0] if roleID else ''
     # Search the (optional) separator between name and role/notes.
     if txt.find('....') != -1:
         sep = '....'
